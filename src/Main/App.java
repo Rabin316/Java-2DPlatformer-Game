@@ -1,3 +1,6 @@
+/**
+ * The `App` class contains the main method that creates an instance of the `Game` class.
+ */
 package Main;
 
 public class App {

@@ -1,3 +1,7 @@
+/**
+ * The `GamePanel` class in Java extends `JPanel` and handles game graphics, animations, player
+ * movement, and input handling.
+ */
 package Main;
 
 import javax.imageio.ImageIO;
@@ -112,20 +116,18 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        // subImage = img.getSubimage(1 * 64, 8 * 40, 64, 40);
+    public void updateGame() {
         updateAnimationTick();
         setAnimation();
         updatePos();
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // subImage = img.getSubimage(1 * 64, 8 * 40, 64, 40);
+
         g.drawImage(animations[playerAction][aniIndex], (int) xDelta, (int) yDelta, 128, 80, null);
 
-        // frames++;
-        // if (System.currentTimeMillis() - lastCheck >= 1000) {
-        // lastCheck = System.currentTimeMillis();
-        // System.out.println("FPS: " + frames);
-        // frames = 0;
-        // }
     }
 
 }

@@ -1,3 +1,7 @@
+/**
+ * The `KeyboardInputs` class in Java handles keyboard input events for a game panel, setting the
+ * direction of movement based on the keys pressed.
+ */
 package Inputs;
 
 import static utils.Constants.Directions.LEFT;

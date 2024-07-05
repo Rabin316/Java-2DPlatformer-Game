@@ -1,3 +1,8 @@
+/**
+ * The Constants class contains static inner classes for Directions and PlayerConstants with integer
+ * constants representing directions and player actions, along with a method to get the number of
+ * sprites for a given player action.
+ */
 package utils;
 
 public class Constants {
