@@ -4,9 +4,6 @@
  */
 package Inputs;
 
-import static utils.Constants.Directions.LEFT;
-import static utils.Constants.Directions.*;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
