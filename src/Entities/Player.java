@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Player extends Entity {
     private BufferedImage[][] animations;
-    private int aniTick, aniIndex, aniSpeed = 15;
+    private int aniTick, aniIndex, aniSpeed = 25;
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
     private boolean left, up, right, down;
@@ -49,12 +49,14 @@ public class Player extends Entity {
     private void setAnimation() {
 
         int startAni = playerAction;
-        if (attacking)
-            playerAction = ATTACK_1;
+
         if (moving)
             playerAction = RUNNING;
         else
             playerAction = IDLE;
+
+        if (attacking)
+            playerAction = ATTACK_1;
 
         if (startAni != playerAction)
             resetAniTick();
@@ -70,6 +72,7 @@ public class Player extends Entity {
     // player based on the movement direction. Here's a breakdown of what it does:
     private void updatePos() {
         moving = false;
+
         if (left && !right) {
             x -= playerSpeed;
             moving = true;
