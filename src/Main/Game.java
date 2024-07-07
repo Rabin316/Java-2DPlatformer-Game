@@ -2,8 +2,9 @@ package Main;
 
 import java.awt.Graphics;
 
-import Entities.Player;
-import Levels.LevelManager;
+import GameStates.Gamestate;
+import GameStates.Menu;
+import GameStates.Playing;
 
 public class Game implements Runnable {
     private GameWindow gameWindow;
@@ -12,8 +13,8 @@ public class Game implements Runnable {
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 
-    private Player player;
-    private LevelManager levelManager;
+    private Playing playing;
+    private Menu menu;
 
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 1f;
@@ -34,9 +35,8 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE));
-        levelManager = new LevelManager(this);
-        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void startGameLoop() {
@@ -45,13 +45,34 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        player.update();
-        levelManager.update();
+
+        switch (Gamestate.state) {
+            case MENU:
+                menu.update();
+                break;
+            case PLAYING:
+                playing.update();
+                // levelManager.update();
+                // player.update();
+                break;
+            default:
+                break;
+        }
     }
 
     public void render(Graphics g) {
-        levelManager.draw(g);
-        player.render(g);
+        switch (Gamestate.state) {
+            case MENU:
+            menu.draw(g);
+                break;
+            case PLAYING:
+            playing.draw(g);
+                // levelManager.draw(g);
+                // player.render(g);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -99,11 +120,25 @@ public class Game implements Runnable {
     }
 
     public void windowFocusLost() {
-        player.resetDirBooleans();
+        if (Gamestate.state == Gamestate.PLAYING)
+            playing.getPlayer().resetDirBooleans();
     }
 
-    public Player getPlayer() {
-        return player;
+    // The `getMenu()` method is a getter method that returns the `Menu` object
+    // stored in the `menu`
+    // instance variable of the `Game` class. Similarly, the `getPlaying()` method
+    // is a getter method
+    // that returns the `Playing` object stored in the `playing` instance variable
+    // of the `Game` class.
+    // These methods allow other classes to access the `Menu` and `Playing` objects
+    // from an instance of
+    // the `Game` class.
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public Playing getPlaying() {
+        return playing;
     }
 
 }

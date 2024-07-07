@@ -3,6 +3,8 @@ package Inputs;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import GameStates.Gamestate;
 import Main.GamePanel;
 
 public class MouseInputs implements MouseListener, MouseMotionListener {
@@ -24,10 +26,25 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     }
 
+    /**
+     * This function handles mouse click events based on the current game state in a Java program.
+     * 
+     * @param e The parameter `e` in the `mouseClicked` method of the code snippet represents a
+     * `MouseEvent` object. This object contains information about the mouse event that occurred, such
+     * as the position of the mouse cursor and the type of mouse click (e.g., left click, right click).
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1)
-            gamePanel.getGame().getPlayer().setAttacking(true);
+            switch (Gamestate.state) {
+                case MENU:
+                    gamePanel.getGame().getMenu().mouseClicked(e);
+                    break;
+                case PLAYING:
+                    gamePanel.getGame().getPlaying().mouseClicked(e);
+                    break;
+                default:
+                    break;
+            }
     }
 
     @Override
