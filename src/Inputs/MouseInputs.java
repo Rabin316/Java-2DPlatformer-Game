@@ -22,40 +22,68 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // gamePanel.setRecPos(e.getX(), e.getY());
+        switch (Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().mouseMoved(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mouseMoved(e);
+                break;
+            default:
+                break;
+        }
 
     }
 
     /**
-     * This function handles mouse click events based on the current game state in a Java program.
+     * This function handles mouse click events based on the current game state in a
+     * Java program.
      * 
-     * @param e The parameter `e` in the `mouseClicked` method of the code snippet represents a
-     * `MouseEvent` object. This object contains information about the mouse event that occurred, such
-     * as the position of the mouse cursor and the type of mouse click (e.g., left click, right click).
+     * @param e The parameter `e` in the `mouseClicked` method of the code snippet
+     *          represents a
+     *          `MouseEvent` object. This object contains information about the
+     *          mouse event that occurred, such
+     *          as the position of the mouse cursor and the type of mouse click
+     *          (e.g., left click, right click).
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-            switch (Gamestate.state) {
-                case MENU:
-                    gamePanel.getGame().getMenu().mouseClicked(e);
-                    break;
-                case PLAYING:
-                    gamePanel.getGame().getPlaying().mouseClicked(e);
-                    break;
-                default:
-                    break;
-            }
+        switch (Gamestate.state) {
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mouseClicked(e);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
+        switch (Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().mousePressed(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mousePressed(e);
+                break;
+            default:
+                break;
+        }
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
+        switch (Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().mouseReleased(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mouseReleased(e);
+                break;
+            default:
+                break;
+        }
 
     }
 
