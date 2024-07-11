@@ -71,15 +71,16 @@ public class Playing extends State implements Statemethods {
             pauseOverlay.mouseReleased(e);
     }
 
+    public void mouseDragged(MouseEvent e) {
+        if (paused)
+            pauseOverlay.mouseDragged(e);
+    }
+
     @Override
     public void mouseMoved(MouseEvent e) {
         if (paused)
             pauseOverlay.mouseMoved(e);
         ;
-    }
-
-    public void unpauseGame() {
-        paused = false;
     }
 
     @Override
@@ -97,7 +98,7 @@ public class Playing extends State implements Statemethods {
                 player.setJump(true);
                 break;
             case KeyEvent.VK_ESCAPE:
-                paused=!paused;
+                paused = !paused;
                 break;
         }
     }
@@ -105,7 +106,6 @@ public class Playing extends State implements Statemethods {
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-
             case KeyEvent.VK_A:
                 player.setLeft(false);
                 break;
@@ -117,6 +117,10 @@ public class Playing extends State implements Statemethods {
                 player.setJump(false);
                 break;
         }
+    }
+
+    public void unpauseGame() {
+        paused = false;
     }
 
 }
