@@ -1,5 +1,7 @@
 package Entities;
 
+import static utils.Constants.EnemyConstants.CRABBY_DRAWOFFSET_X;
+import static utils.Constants.EnemyConstants.CRABBY_DRAWOFFSET_Y;
 import static utils.Constants.EnemyConstants.CRABBY_HEIGHT;
 import static utils.Constants.EnemyConstants.CRABBY_HEIGHT_DEFAULT;
 import static utils.Constants.EnemyConstants.CRABBY_WIDTH;
@@ -28,9 +30,9 @@ public class EnemyManager {
         System.out.println("Size of Crabs:" + crabbies.size());
     }
 
-    public void update() {
+    public void update(int[][] lvlData) {
         for (Crabby c : crabbies)
-            c.update();
+            c.update(lvlData);
     }
 
     public void draw(Graphics g, int xLvlOffset) {
@@ -39,8 +41,9 @@ public class EnemyManager {
 
     private void drawCrabs(Graphics g, int xLvlOffset) {
         for (Crabby c : crabbies)
-            g.drawImage(crabbyArr[c.getEnemySate()][c.getAniIndex()], (int) c.getHitbox().x - xLvlOffset,
-                    (int) c.getHitbox().y,
+            g.drawImage(crabbyArr[c.getEnemySate()][c.getAniIndex()],
+                    (int) c.getHitbox().x - xLvlOffset - CRABBY_DRAWOFFSET_X,
+                    (int) c.getHitbox().y - CRABBY_DRAWOFFSET_Y,
                     CRABBY_WIDTH, CRABBY_HEIGHT, null);
     }
 

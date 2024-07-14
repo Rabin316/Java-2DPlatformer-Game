@@ -49,7 +49,7 @@ public class Player extends Entity {
                 (int) (hitbox.y - yDrawOffset),
                 width, height, null);
 
-        // drawHitbox(g);
+       // drawHitbox(g, lvlOffset);
     }
 
     private void updateAnimationTick() {

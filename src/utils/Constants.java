@@ -23,8 +23,11 @@ public class Constants {
         public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
         public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
 
+        public static final int CRABBY_DRAWOFFSET_X = (int) (26 * Game.SCALE);
+        public static final int CRABBY_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
+
         public static int GetSpriteAtlas(int enemy_type, int enemy_state) {
-            switch (enemy_state) {
+            switch (enemy_type) {
                 case CRABBY:
                     switch (enemy_state) {
                         case IDLE:
@@ -37,10 +40,9 @@ public class Constants {
                             return 4;
                         case DEAD:
                             return 5;
-                        default:
-                            break;
                     }
             }
+
             return 0;
         }
 
