@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import Entities.EnemyManager;
 import Entities.Player;
 import Levels.LevelManager;
 import Main.Game;
@@ -16,6 +17,7 @@ import static utils.Constants.Environment.*;
 
 public class Playing extends State implements Statemethods {
     private Player player;
+    private EnemyManager enemyManager;
     private LevelManager levelManager;
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
@@ -43,8 +45,10 @@ public class Playing extends State implements Statemethods {
     }
 
     private void initClasses() {
-        player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE));
         levelManager = new LevelManager(game);
+        enemyManager=new EnemyManager(this);
+        player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE));
+        
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
     }
@@ -62,6 +66,7 @@ public class Playing extends State implements Statemethods {
         if (!paused) {
             levelManager.update();
             player.update();
+            enemyManager.update();
             checkCloseToBorder();
         } else {
             pauseOverlay.update();
@@ -89,6 +94,7 @@ public class Playing extends State implements Statemethods {
         drawClouds(g);
         levelManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
+        enemyManager.draw(g,xLvlOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_WIDTH);
