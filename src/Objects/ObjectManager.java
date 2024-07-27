@@ -1,19 +1,16 @@
 package Objects;
 
 import static utils.Constants.ObjectConstants.BARREL;
-import static utils.Constants.ObjectConstants.BLUE_POTION;
-import static utils.Constants.ObjectConstants.BOX;
-import static utils.Constants.ObjectConstants.CONTAINER_HEIGHT;
-import static utils.Constants.ObjectConstants.CONTAINER_WIDTH;
-import static utils.Constants.ObjectConstants.POTION_HEIGHT;
-import static utils.Constants.ObjectConstants.POTION_WIDTH;
-import static utils.Constants.ObjectConstants.RED_POTION;
+
+import static utils.Constants.ObjectConstants.*;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import GameStates.Playing;
+import Levels.Level;
 import utils.LoadSave;
 
 public class ObjectManager {
@@ -25,13 +22,43 @@ public class ObjectManager {
     public ObjectManager(Playing playing) {
         this.playing = playing;
         loadImgs();
-        potions = new ArrayList<>();
-        potions.add(new Potion(300, 300, RED_POTION));
-        potions.add(new Potion(400, 300, BLUE_POTION));
+    }
 
-        containers = new ArrayList<>();
-        containers.add(new GameContainer(500, 300, BARREL));
-        containers.add(new GameContainer(600, 300, BOX));
+    public void checkObjectTouched(Rectangle2D.Float hitbox) {
+        for (Potion p : potions)
+            if (p.isActive()) {
+                if (hitbox.intersects(p.getHitbox())) {
+                    p.setActive(false);
+                    applyEffectToPlayer(p);
+                }
+            }
+    }
+
+    public void applyEffectToPlayer(Potion p) {
+        if (p.getObjType() == RED_POTION)
+            playing.getPlayer().changeHealth(RED_POTION_VALUE);
+        else
+            playing.getPlayer().changePower(BLUE_POTION_VALUE);
+    }
+
+    public void checkObjectHit(Rectangle2D.Float attackbox) {
+        for (GameContainer gc : containers)
+            if (gc.isActive()) {
+                if (gc.getHitbox().intersects(attackbox)) {
+                    gc.setAnimation(true);
+                    int type = 0;
+                    if (gc.getObjType() == BARREL)
+                        type = 1;
+                    potions.add(new Potion((int) (gc.getHitbox().x + gc.getHitbox().width / 2),
+                            (int) (gc.getHitbox().y - gc.getHitbox().height / 1.5), type));
+                    return;
+                }
+            }
+    }
+
+    public void LoadObjects(Level newLevel) {
+        potions = newLevel.getPotions();
+        containers = newLevel.getContainers();
     }
 
     private void loadImgs() {
@@ -89,6 +116,13 @@ public class ObjectManager {
                         (int) (p.getHitbox().y - p.getyDrawOffset()), POTION_WIDTH, POTION_HEIGHT,
                         null);
             }
+    }
+
+    public void resetAllObject() {
+        for (Potion p : potions)
+            p.reset();
+        for (GameContainer gc : containers)
+            gc.reset();
     }
 
 }

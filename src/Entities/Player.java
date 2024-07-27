@@ -84,6 +84,8 @@ public class Player extends Entity {
         updateHealthBar();
         updateAttackBox();
         updatePos();
+        if (moving)
+            checkPotionTouched();
         if (attacking)
             checkattack();
         updateAnimationTick();
@@ -91,11 +93,16 @@ public class Player extends Entity {
 
     }
 
+    private void checkPotionTouched() {
+        playing.checkPotionTouched(hitbox);
+    }
+
     private void checkattack() {
         if (attackChecked || aniIndex != 1)
             return;
         attackChecked = true;
         playing.checkEnemyHit(attackBox);
+        playing.checkObjectHit(attackBox);
     }
 
     private void updateAttackBox() {
@@ -120,7 +127,6 @@ public class Player extends Entity {
         // drawAttackBox(g, lvlOffset);
         drawUI(g);
     }
-
 
     private void drawUI(Graphics g) {
         g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarwidth, statusBarheight, null);
@@ -258,6 +264,10 @@ public class Player extends Entity {
             currentHealth = maxHealth;
         }
 
+    }
+
+    public void changePower(int value) {
+        System.out.println("Added Power");
     }
 
     private void loadAnimation() {
