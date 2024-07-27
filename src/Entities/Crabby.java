@@ -1,11 +1,7 @@
 package Entities;
 
 import static utils.Constants.EnemyConstants.*;
-import static utils.HelpMethods.CanMoveHere;
-import static utils.HelpMethods.GetEntityYPosUnderRoofOrAboveFloor;
-import static utils.HelpMethods.IsEntityOnFloor;
 import static utils.Constants.Directions.*;
-import static utils.HelpMethods.IsFloor;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,12 +12,12 @@ import Main.Game;
 public class Crabby extends Enemy {
 
     // AttackBox
-    private Rectangle2D.Float attackBox;
+
     private int attackBoxOffsetX;
 
     public Crabby(float x, float y) {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
-        initHitbox(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
+        initHitbox(22, 19);
         initAttackBox();
     }
 
@@ -50,7 +46,7 @@ public class Crabby extends Enemy {
         if (inAir) {
             updateInAir(lvlData);
         } else {
-            switch (enemyState) {
+            switch (state) {
                 case IDLE:
                     newState(RUNNING);
                     break;
@@ -74,11 +70,6 @@ public class Crabby extends Enemy {
             }
         }
 
-    }
-
-    public void drawAttackBox(Graphics g, int xLvlOffset) {
-        g.setColor(Color.red);
-        g.drawRect((int) (attackBox.x - xLvlOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     public int flipX() {
