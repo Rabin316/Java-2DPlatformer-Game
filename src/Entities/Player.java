@@ -86,11 +86,16 @@ public class Player extends Entity {
         updatePos();
         if (moving)
             checkPotionTouched();
+            CheckSpikesTouched();
         if (attacking)
             checkattack();
         updateAnimationTick();
         setAnimation();
 
+    }
+
+    private void CheckSpikesTouched() {
+        playing.CheckSpikesTouched(this);
     }
 
     private void checkPotionTouched() {
@@ -331,6 +336,10 @@ public class Player extends Entity {
 
         if (!IsEntityOnFloor(hitbox, lvlData))
             inAir = true;
+    }
+
+    public void kill() {
+        currentHealth = 0;
     }
 
 }
