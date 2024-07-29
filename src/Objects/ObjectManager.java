@@ -1,37 +1,75 @@
 package Objects;
 
 import static utils.Constants.ObjectConstants.BARREL;
-import static utils.Constants.ObjectConstants.BLUE_POTION;
-import static utils.Constants.ObjectConstants.BOX;
-import static utils.Constants.ObjectConstants.CONTAINER_HEIGHT;
-import static utils.Constants.ObjectConstants.CONTAINER_WIDTH;
-import static utils.Constants.ObjectConstants.POTION_HEIGHT;
-import static utils.Constants.ObjectConstants.POTION_WIDTH;
-import static utils.Constants.ObjectConstants.RED_POTION;
+
+import static utils.Constants.ObjectConstants.*;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import Entities.Player;
 import GameStates.Playing;
+import Levels.Level;
 import utils.LoadSave;
 
 public class ObjectManager {
     private Playing playing;
     private BufferedImage[][] potionImgs, containerImgs;
+    private BufferedImage spikeImg;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> containers;
+    private ArrayList<Spike> spikes;
 
     public ObjectManager(Playing playing) {
         this.playing = playing;
         loadImgs();
-        potions = new ArrayList<>();
-        potions.add(new Potion(300, 300, RED_POTION));
-        potions.add(new Potion(400, 300, BLUE_POTION));
+    }
+    public void CheckSpikesTouched(Player p)
+    {
+        for(Spike s: spikes)
+        {
+            if(s.getHitbox().intersects(p.getHitbox()))
+                p.kill();
+        }
+    }
+    public void checkObjectTouched(Rectangle2D.Float hitbox) {
+        for (Potion p : potions)
+            if (p.isActive()) {
+                if (hitbox.intersects(p.getHitbox())) {
+                    p.setActive(false);
+                    applyEffectToPlayer(p);
+                }
+            }
+    }
 
-        containers = new ArrayList<>();
-        containers.add(new GameContainer(500, 300, BARREL));
-        containers.add(new GameContainer(600, 300, BOX));
+    public void applyEffectToPlayer(Potion p) {
+        if (p.getObjType() == RED_POTION)
+            playing.getPlayer().changeHealth(RED_POTION_VALUE);
+        else
+            playing.getPlayer().changePower(BLUE_POTION_VALUE);
+    }
+
+    public void checkObjectHit(Rectangle2D.Float attackbox) {
+        for (GameContainer gc : containers)
+            if (gc.isActive() && !gc.doAnimation) {
+                if (gc.getHitbox().intersects(attackbox)) {
+                    gc.setAnimation(true);
+                    int type = 0;
+                    if (gc.getObjType() == BARREL)
+                        type = 1;
+                    potions.add(new Potion((int) (gc.getHitbox().x + gc.getHitbox().width / 2),
+                            (int) (gc.getHitbox().y - gc.getHitbox().height / 1.5), type));
+                    return;
+                }
+            }
+    }
+
+    public void LoadObjects(Level newLevel) {
+        potions = new ArrayList<>(newLevel.getPotions());
+        containers = new ArrayList<>(newLevel.getContainers());
+        spikes = newLevel.getSpikes();
     }
 
     private void loadImgs() {
@@ -47,6 +85,8 @@ public class ObjectManager {
         for (int j = 0; j < containerImgs.length; j++)
             for (int i = 0; i < containerImgs[j].length; i++)
                 containerImgs[j][i] = containerSprite.getSubimage(40 * i, 30 * j, 40, 30);
+
+        spikeImg = LoadSave.GetSpriteAtlas(LoadSave.TRAP_ATLAS);
     }
 
     public void update() {
@@ -63,6 +103,13 @@ public class ObjectManager {
     public void draw(Graphics g, int xLvlOffset) {
         drawPotions(g, xLvlOffset);
         drawContainers(g, xLvlOffset);
+        drawTraps(g, xLvlOffset);
+    }
+
+    private void drawTraps(Graphics g, int xLvlOffset) {
+        for (Spike s : spikes)
+            g.drawImage(spikeImg, (int) (s.getHitbox().x - xLvlOffset), (int) (s.getHitbox().y - s.getyDrawOffset()),
+                    SPIKE_WIDTH, SPIKE_HEIGHT, null);
     }
 
     private void drawContainers(Graphics g, int xLvlOffset) {
@@ -89,6 +136,15 @@ public class ObjectManager {
                         (int) (p.getHitbox().y - p.getyDrawOffset()), POTION_WIDTH, POTION_HEIGHT,
                         null);
             }
+    }
+
+    public void resetAllObject() {
+
+        LoadObjects(playing.getLevelManager().getCurrentLevel());
+        for (Potion p : potions)
+            p.reset();
+        for (GameContainer gc : containers)
+            gc.reset();
     }
 
 }

@@ -84,6 +84,9 @@ public class Player extends Entity {
         updateHealthBar();
         updateAttackBox();
         updatePos();
+        if (moving)
+            checkPotionTouched();
+            CheckSpikesTouched();
         if (attacking)
             checkattack();
         updateAnimationTick();
@@ -91,11 +94,20 @@ public class Player extends Entity {
 
     }
 
+    private void CheckSpikesTouched() {
+        playing.CheckSpikesTouched(this);
+    }
+
+    private void checkPotionTouched() {
+        playing.checkPotionTouched(hitbox);
+    }
+
     private void checkattack() {
         if (attackChecked || aniIndex != 1)
             return;
         attackChecked = true;
         playing.checkEnemyHit(attackBox);
+        playing.checkObjectHit(attackBox);
     }
 
     private void updateAttackBox() {
@@ -120,7 +132,6 @@ public class Player extends Entity {
         // drawAttackBox(g, lvlOffset);
         drawUI(g);
     }
-
 
     private void drawUI(Graphics g) {
         g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarwidth, statusBarheight, null);
@@ -260,6 +271,10 @@ public class Player extends Entity {
 
     }
 
+    public void changePower(int value) {
+        System.out.println("Added Power");
+    }
+
     private void loadAnimation() {
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         animations = new BufferedImage[7][8];
@@ -321,6 +336,10 @@ public class Player extends Entity {
 
         if (!IsEntityOnFloor(hitbox, lvlData))
             inAir = true;
+    }
+
+    public void kill() {
+        currentHealth = 0;
     }
 
 }
