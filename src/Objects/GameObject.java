@@ -32,7 +32,8 @@ public class GameObject {
                 if (ObjType == BARREL || ObjType == BOX) {
                     doAnimation = false;
                     active = false;
-                }
+                } else if (ObjType == CANNON_LEFT || ObjType == CANNON_RIGHT)
+                    doAnimation = false;
             }
         }
     }
@@ -41,12 +42,10 @@ public class GameObject {
         aniIndex = 0;
         aniTick = 0;
         active = true;
-        if (ObjType == BARREL || ObjType == BOX) {
+        if (ObjType == BARREL || ObjType == BOX || ObjType == CANNON_LEFT || ObjType == CANNON_RIGHT)
             doAnimation = false;
-            active = false;
-        } else {
+        else
             doAnimation = true;
-        }
 
     }
 
@@ -75,9 +74,9 @@ public class GameObject {
     public void setActive(boolean active) {
         this.active = active;
     }
-    public void setAnimation(boolean doAnimation)
-    {
-        this.doAnimation=doAnimation;
+
+    public void setAnimation(boolean doAnimation) {
+        this.doAnimation = doAnimation;
     }
 
     public int getxDrawOffset() {
