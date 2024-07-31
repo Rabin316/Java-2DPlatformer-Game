@@ -13,6 +13,7 @@ import Main.Game;
 import Objects.Cannon;
 import Objects.GameContainer;
 import Objects.Potion;
+import Objects.Projectile;
 import Objects.Spike;
 
 /**
@@ -65,6 +66,10 @@ public class HelpMethods {
 
     }
 
+    public static boolean IsProjectileHittingLevel(Projectile p, int[][] lvlData) {
+        return IsSolid(p.getHitbox().x + p.getHitbox().width / 2, p.getHitbox().y + p.getHitbox().height / 2, lvlData);
+    }
+
     public static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
         int value = lvlData[yTile][xTile];
 
@@ -114,7 +119,8 @@ public class HelpMethods {
         return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
     }
 
-    public static boolean CanCannonSeePlayer(int[][] lvlData, Rectangle2D.Float firstHitbox, Rectangle2D.Float secondHitbox,
+    public static boolean CanCannonSeePlayer(int[][] lvlData, Rectangle2D.Float firstHitbox,
+            Rectangle2D.Float secondHitbox,
             int yTile) {
         int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
         int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
