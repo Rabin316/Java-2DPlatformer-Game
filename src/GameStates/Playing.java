@@ -28,6 +28,7 @@ public class Playing extends State implements Statemethods {
     private GameOverOverlay gameOverOverlay;
     private LevelCompletedOverlay levelCompletedOverlay;
     private boolean paused = false;
+    private boolean playerDying;
 
     private int xLvlOffset;
     private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
@@ -97,6 +98,10 @@ public class Playing extends State implements Statemethods {
             pauseOverlay.update();
         } else if (lvlCompleted) {
             levelCompletedOverlay.update();
+        } else if (gameOver) {
+            // gameOverOverlay.update();
+        } else if (playerDying) {
+            player.update();
         } else if (!gameOver) {
             levelManager.update();
             objectManager.update(levelManager.getCurrentLevel().getLevelData(), player);
@@ -157,6 +162,7 @@ public class Playing extends State implements Statemethods {
         // reset playing,enemy, level
         gameOver = false;
         paused = false;
+        playerDying = false;
         lvlCompleted = false;
         player.resetAll();
         enemyManager.resetAllEnemies();
@@ -287,6 +293,10 @@ public class Playing extends State implements Statemethods {
 
     public LevelManager getLevelManager() {
         return levelManager;
+    }
+
+    public void setPlayerDying(boolean playerDying) {
+        this.playerDying = playerDying;
     }
 
 }
