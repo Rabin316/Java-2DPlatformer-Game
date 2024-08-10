@@ -240,6 +240,8 @@ public class Playing extends State implements Statemethods {
 
     public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;
+        if(lvlCompleted)
+            game.getAudioPlayer().lvlcompleted();
     }
 
     @Override

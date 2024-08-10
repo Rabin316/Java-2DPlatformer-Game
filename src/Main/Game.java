@@ -2,6 +2,7 @@ package Main;
 
 import java.awt.Graphics;
 
+import Audio.AudioPlayer;
 import GameStates.GameOptions;
 import GameStates.Gamestate;
 import GameStates.Menu;
@@ -19,6 +20,7 @@ public class Game implements Runnable {
     private Playing playing;
     private Menu menu;
     private AudioOptions audioOptions;
+    private AudioPlayer audioPlayer;
 
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 1.0f;
@@ -40,7 +42,8 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        audioOptions = new AudioOptions();
+        audioOptions = new AudioOptions(this);
+        audioPlayer = new AudioPlayer();
         menu = new Menu(this);
         playing = new Playing(this);
         gameOptions = new GameOptions(this);
@@ -161,6 +164,10 @@ public class Game implements Runnable {
 
     public AudioOptions getAudioOptions() {
         return audioOptions;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
     }
 
 }
