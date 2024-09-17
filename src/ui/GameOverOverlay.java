@@ -97,6 +97,8 @@ public class GameOverOverlay {
             menu.setMousePressed(true);
         } else if (isIn(play, e)) {
             play.setMousePressed(true);
+            playing.resetScore();
+
         }
     }
 }

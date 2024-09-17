@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import Entities.Player;
+import GameStates.Playing.*;
 import Main.Game;
 import ui.MenuButton;
 import utils.LoadSave;
@@ -53,6 +55,7 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        Playing.resetScore();
         for (MenuButton mb : buttons) {
             if (isIn(e, mb)) {
                 mb.setMousePressed(true);
@@ -98,6 +101,7 @@ public class Menu extends State implements Statemethods {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
             Gamestate.state = Gamestate.PLAYING;
+            
     }
 
     @Override

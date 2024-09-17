@@ -1,5 +1,7 @@
 package GameStates;
 
+import java.awt.Font;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -41,6 +43,9 @@ public class Playing extends State implements Statemethods {
     private boolean gameOver;
     private boolean lvlCompleted;
 
+    // score
+    private static int score = 0;
+
     public Playing(Game game) {
         super(game);
         initClasses();
@@ -54,6 +59,16 @@ public class Playing extends State implements Statemethods {
         calcLvlOffset();
         loadStartLevel();
 
+    }
+
+    // score
+    public void addScore(int points) {
+        score += points;
+    }
+
+    // reset score
+    public static void resetScore() {
+        score = 0;
     }
 
     public void loadNextLevel() {
@@ -134,6 +149,12 @@ public class Playing extends State implements Statemethods {
         player.render(g, xLvlOffset);
         enemyManager.draw(g, xLvlOffset);
         objectManager.draw(g, xLvlOffset);
+
+        // Draw the score
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("SCORE: " + score, Game.GAME_WIDTH - 120, 40);
+
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_WIDTH);
@@ -167,10 +188,13 @@ public class Playing extends State implements Statemethods {
         player.resetAll();
         enemyManager.resetAllEnemies();
         objectManager.resetAllObject();
+        // score reset
+        //resetScore();
     }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+
     }
 
     public void checkObjectHit(Rectangle2D.Float attackBox) {
@@ -194,7 +218,7 @@ public class Playing extends State implements Statemethods {
         if (!gameOver)
             if (e.getButton() == MouseEvent.BUTTON1)
                 player.setAttacking(true);
-            else if(e.getButton()==MouseEvent.BUTTON3)
+            else if (e.getButton() == MouseEvent.BUTTON3)
                 player.powerAttack();
     }
 
@@ -242,7 +266,7 @@ public class Playing extends State implements Statemethods {
 
     public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;
-        if(lvlCompleted)
+        if (lvlCompleted)
             game.getAudioPlayer().lvlcompleted();
     }
 
