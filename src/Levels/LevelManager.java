@@ -23,6 +23,7 @@ public class LevelManager {
     }
 
     public void loadNextLevel() {
+        long startTime = System.currentTimeMillis(); // Start measuring time
         LvlIndex++;
         if (LvlIndex >= levels.size()) {
             LvlIndex = 0;
@@ -35,6 +36,10 @@ public class LevelManager {
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
         game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());
         game.getPlaying().getObjectManager().LoadObjects(newLevel);
+
+        long endTime = System.currentTimeMillis(); // End measuring time
+        long duration = endTime - startTime; // Calculate duration in milliseconds
+        System.out.println("Time taken to load the next level: " + duration + " ms");
     }
 
     private void buildAllLevels() {

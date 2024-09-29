@@ -24,9 +24,7 @@ public class PauseOverlay {
         this.playing = playing;
         loadBackground();
         audioOptions = playing.getGame().getAudioOptions();
-
         createUrmButtons();
-
     }
 
     private void createUrmButtons() {

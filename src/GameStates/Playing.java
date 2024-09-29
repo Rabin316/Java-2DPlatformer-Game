@@ -46,6 +46,9 @@ public class Playing extends State implements Statemethods {
     // score
     private static int score = 0;
 
+    private long lastActionTime;
+    private long responseTime;
+
     public Playing(Game game) {
         super(game);
         initClasses();
@@ -59,6 +62,17 @@ public class Playing extends State implements Statemethods {
         calcLvlOffset();
         loadStartLevel();
 
+    }
+
+    // Call this method whenever the player performs an action
+    private void recordActionTime() {
+        long currentTime = System.nanoTime();
+        responseTime = currentTime - lastActionTime;
+        lastActionTime = currentTime;
+    }
+    
+    public long getResponseTime() {
+        return responseTime;
     }
 
     // score
@@ -279,13 +293,16 @@ public class Playing extends State implements Statemethods {
 
                 case KeyEvent.VK_A:
                     player.setLeft(true);
+                    recordActionTime();
                     break;
 
                 case KeyEvent.VK_D:
                     player.setRight(true);
+                    recordActionTime();
                     break;
                 case KeyEvent.VK_SPACE:
                     player.setJump(true);
+                    recordActionTime();
                     break;
                 case KeyEvent.VK_ESCAPE:
                     paused = !paused;

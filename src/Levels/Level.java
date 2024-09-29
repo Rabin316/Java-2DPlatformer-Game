@@ -28,6 +28,7 @@ public class Level {
     private int maxTilesOffset;
     private int maxLvlOffsetX;
     private Point playerSpawn;
+    
 
     public Level(BufferedImage img) {
         this.img = img;

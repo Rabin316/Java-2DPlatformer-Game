@@ -102,6 +102,7 @@ public class Game implements Runnable {
         int updates = 0;
         long lastCheck = System.currentTimeMillis();
 
+       // long lastUpdateTime = System.nanoTime(); // Renamed to avoid duplication
         // This part of the code is implementing a fixed timestep game loop. The
         // variable `deltaU` is
         // used to keep track of the time that has passed since the last update.
@@ -129,7 +130,8 @@ public class Game implements Runnable {
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + "|UPS: " + updates);
+                System.out.println("FPS: " + frames + " | UPS: " + updates + " | Player Response Time: "
+                        + (playing.getResponseTime() / 1_000_000.0) + " ms");
                 frames = 0;
                 updates = 0;
             }

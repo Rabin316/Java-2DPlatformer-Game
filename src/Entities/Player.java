@@ -180,7 +180,7 @@ public class Player extends Entity {
                 width * flipW, height, null);
 
         drawHitbox(g, lvlOffset);
-        // drawAttackBox(g, lvlOffset);
+        //drawAttackBox(g, lvlOffset);
         drawUI(g);
     }
 
@@ -254,7 +254,6 @@ public class Player extends Entity {
      */
     private void updatePos() {
         moving = false;
-
         if (jump)
             jump();
         // if (!left && !right && !inAir)
@@ -264,7 +263,6 @@ public class Player extends Entity {
                 if ((!left && !right && !inAir) || (right && left))
                     return;
         }
-
         float xSpeed = 0;
 
         if (left) {
@@ -328,6 +326,7 @@ public class Player extends Entity {
             hitbox.x += xSpeed;
         } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            System.out.println("Collision detected: Wall hit!"); // Collision detection output
             if (powerAttackActive) {
                 powerAttackActive = false;
                 powerAttackTick = 0;
